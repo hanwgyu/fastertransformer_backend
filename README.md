@@ -63,6 +63,17 @@ cd apex
 pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 ```
 
+* Build FT
+```bash
+cd $WORKSPACE/fastertransformer_backend
+git clone https://github.com/NVIDIA/FasterTransformer
+cd FasterTransformer
+mkdir -p build
+cd build
+cmake -DSM=xx -DCMAKE_BUILD_TYPE=Release .. # Note: xx is the compute capability of your GPU. For example, 60 (P40) or 61 (P4) or 70 (V100) or 75(T4) or 80 (A100).
+make
+```
+
 * Build FT backend
 
 ```bash
@@ -83,8 +94,8 @@ wget https://s3.amazonaws.com/models.huggingface.co/bert/gpt2-merges.txt -P mode
 wget --content-disposition https://api.ngc.nvidia.com/v2/models/nvidia/megatron_lm_345m/versions/v0.0/zip -O megatron_lm_345m_v0.0.zip
 mkdir -p models/megatron-models/345m
 unzip megatron_lm_345m_v0.0.zip -d models/megatron-models/345m
-python ../sample/pytorch/utils/megatron_ckpt_convert.py -i ./models/megatron-models/345m/release/ -o ./models/megatron-models/c-model/345m/ -t_g 1 -i_g 8
-python _deps/repo-ft-src/sample/pytorch/utils/megatron_ckpt_convert.py -i ./models/megatron-models/345m/release/ -o ./models/megatron-models/c-model/345m/ -t_g 1 -i_g 8
+python $WORKSPACE/fastertransformer_backend/FasterTransformer/sample/pytorch/utils/megatron_ckpt_convert.py -i ./models/megatron-models/345m/release/ -o ./models/megatron-models/c-model/345m/ -t_g 1 -i_g 8
+python $WORKSPACE/fastertransformer_backend/FasterTransformer//sample/pytorch/utils/megatron_ckpt_convert.py -i ./models/megatron-models/345m/release/ -o ./models/megatron-models/c-model/345m/ -t_g 1 -i_g 8
 cp ./models/megatron-models/c-model/345m/8-gpu $WORKSPACE/fastertransformer_backend/all_models/transformer/1/ -r
 ```
 
