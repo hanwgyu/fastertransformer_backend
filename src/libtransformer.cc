@@ -190,6 +190,8 @@ ModelState::ModelState(TRITONBACKEND_Model* triton_model)
                    param_get_int("layer_para_batch_size"),
                    param_get_float("probability_threshold"),
                    param_get_int("is_fuse_QKV"),
+                   param_get_float("temperature"),
+                   param_get_float("repetition_penalty"),
                    param_get("model_name"),
                    modelVersionPath));
   else
@@ -206,6 +208,8 @@ ModelState::ModelState(TRITONBACKEND_Model* triton_model)
                    param_get_int("layer_para_batch_size"),
                    param_get_float("probability_threshold"),
                    param_get_int("is_fuse_QKV"),
+                   param_get_float("temperature"),
+                   param_get_float("repetition_penalty"),
                    param_get("model_name"),
                    modelVersionPath));
 
