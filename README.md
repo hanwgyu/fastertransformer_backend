@@ -66,8 +66,9 @@ pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp
 * Build FT
 ```bash
 cd $WORKSPACE/fastertransformer_backend
-git clone https://github.com/NVIDIA/FasterTransformer
+git clone https://github.com/hanwgyu/FasterTransformer
 cd FasterTransformer
+git checkout latest
 mkdir -p build
 cd build
 cmake -DSM=xx -DCMAKE_BUILD_TYPE=Release .. # Note: xx is the compute capability of your GPU. For example, 60 (P40) or 61 (P4) or 70 (V100) or 75(T4) or 80 (A100).
