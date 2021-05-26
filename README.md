@@ -104,13 +104,13 @@ cp ./models/megatron-models/c-model/345m/8-gpu $WORKSPACE/fastertransformer_back
 * Run servning directly
 
 ```bash
-cp $WORKSPACE/fastertransformer_backend/build/libtriton_transformer.so $WORKSPACE/fastertransformer_backend/build/lib/libtransformer-shared.so /opt/tritonserver/backends/transformer
+cp $WORKSPACE/fastertransformer_backend/build/libtriton_transformer.so $WORKSPACE/fastertransformer_backend/FasterTransformer/build/lib/libtransformer-shared.so /opt/tritonserver/backends/transformer
 cd $WORKSPACE && ln -s server/qa/common .
 # Recommend to modify the SERVER_TIMEOUT of common/util.sh to longer time
 cd $WORKSPACE/fastertransformer_backend/build/
 bash $WORKSPACE/fastertransformer_backend/tools/run_server.sh
 bash $WORKSPACE/fastertransformer_backend/tools/run_client.sh
-python _deps/repo-ft-src/sample/pytorch/utils/convert_gpt_token.py --out_file=triton_out # Used for checking result
+python $WORKSPACE/fastertransformer_backend/FasterTransformer/sample/pytorch/utils/convert_gpt_token.py --out_file=triton_out # Used for checking result
 ```
 
 * Modify the model configuration
