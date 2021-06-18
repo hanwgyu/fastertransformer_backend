@@ -820,11 +820,16 @@ ModelInstanceState::SetInputTensors(
               (std::string("get input count = ") +
                std::to_string(input_count)).c_str());
 
+  char const * input_name_order[3] = {"INPUT_ID", "REQUEST_INPUT_LEN", "REQUEST_OUTPUT_LEN"};
+
   for (uint32_t input_idx = 0; input_idx < input_count; input_idx++) {
     TRITONBACKEND_Input* input;
     RESPOND_ALL_AND_RETURN_IF_ERROR(
-        responses, request_count,
-        TRITONBACKEND_RequestInputByIndex(requests[0], input_idx, &input));
+    responses, request_count,
+    TRITONBACKEND_RequestInput(requests[0], input_name_order[input_idx], &input));
+    // RESPOND_ALL_AND_RETURN_IF_ERROR(
+    //     responses, request_count,
+    //     TRITONBACKEND_RequestInputByIndex(requests[0], input_idx, &input));
 
     const char* input_name;
     TRITONSERVER_DataType input_datatype;
@@ -870,7 +875,7 @@ ModelInstanceState::SetInputTensors(
     TRITONSERVER_MemoryType memory_type = input_memory->MemoryType();
     int64_t memory_type_id = input_memory->MemoryTypeId();
     char* input_buffer = input_memory->MemoryPtr();
-
+       
     collector->ProcessTensor(
         input_name, input_buffer, batchn_byte_size, memory_type,
         memory_type_id);
